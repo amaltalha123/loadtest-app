@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: loadtest-app
+  main:
+    banner-mode: off
+
+server:
+  port: 8081
+
+# ──────────────────────────────────────────────────────────────────────────
+# Parametres de la charge simulee (CPU + memoire), modifiables sans recompiler.
+# ──────────────────────────────────────────────────────────────────────────
+loadtest:
+  memory-chunk-mb: 15          # Taille du bloc memoire alloue a chaque cycle
+  memory-max-chunks: 12        # ~180 Mo avant purge automatique
+  release-every-cycles: 6      # Purge partielle toutes les 6 minutes
+  cpu-matrix-size: 400         # Taille de la matrice N x N pour le calcul CPU
+  simulate-errors: true        # Génère une erreur FICTIVE périodique (test du niveau ERROR)
+  error-every-cycles: 15       # Toutes les 15 minutes
+
+# ──────────────────────────────────────────────────────────────────────────
+# Logs : ecrits dans un fichier avec un pattern Logback classique, directement
+# reutilisable dans sentrix-sources.yml (voir README.md).
+# ──────────────────────────────────────────────────────────────────────────
+logging:
+  file:
+    name: /var/log/loadtest-app/app.log
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5level --- [%15.15t] %-40.40logger{39} : %msg%n"
+    file: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5level --- [%15.15t] %-40.40logger{39} : %msg%n"
+  level:
+    root: INFO
+    com.example.loadtest: INFO

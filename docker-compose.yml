@@ -1,0 +1,13 @@
+services:
+  loadtest-app:
+    build: .
+    container_name: loadtest-app
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    volumes:
+      # Bind mount vers un dossier réel de l'hôte, sous /opt/sentrix : c'est
+      # ce même chemin hôte que sentrix-agent doit monter de son côté (dans
+      # SON PROPRE docker-compose.yml, dans /opt/sentrix/sentrix-agent/) pour
+      # pouvoir lire le fichier de logs. Voir README.md.
+      - /opt/sentrix/logs/loadtest-app:/var/log/loadtest-app
